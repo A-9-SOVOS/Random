@@ -1,0 +1,31 @@
+{
+  "cases": [
+    {
+      "seed": 2.4,
+      "game_id": "demo",
+      "season": "s1",
+      "commit": "ccee863dafcd5645cca6b8f5bbdf46aae297e0c6e9059b96d577192f43e88bf4",
+      "stream_seed_0": 8.098338869696818,
+      "stream_seed_1": 1.4671550965867937,
+      "roll_seed_loot_0": 4.064012062649271
+    },
+    {
+      "seed": 1.1,
+      "game_id": "demo",
+      "season": "s1",
+      "commit": "96746a6e00d0f978ca1ff9034af1874436cf4c674eb7aca529cd96696045b7d2",
+      "stream_seed_0": 6.006325949339953,
+      "stream_seed_1": 1.6054894787484955,
+      "roll_seed_loot_0": 8.940430668456797
+    },
+    {
+      "seed": 3.141592653589793,
+      "game_id": "demo",
+      "season": "s1",
+      "commit": "856a8a39e6f855b7973e585bcad154295a9f573ce72bbfe84ddcf6fdd9ef9825",
+      "stream_seed_0": 9.711095648292144,
+      "stream_seed_1": 5.2472608935959215,
+      "roll_seed_loot_0": 9.936220593246313
+    }
+  ]
+}

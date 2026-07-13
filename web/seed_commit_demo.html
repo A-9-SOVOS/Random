@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RRann seed commit demo</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #e8e8ef; background: #12141a; }
+    body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    label { display: block; margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.85; }
+    input { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #333; background: #1c1f28; color: inherit; }
+    button { margin-top: 1rem; margin-right: 0.5rem; padding: 0.5rem 0.9rem; border-radius: 6px; border: 0; background: #5b8cff; color: #fff; cursor: pointer; }
+    button.secondary { background: #3a3f4b; }
+    pre { background: #1c1f28; padding: 0.75rem; border-radius: 8px; overflow: auto; font-size: 0.8rem; }
+    .ok { color: #6dffa8; }
+    .bad { color: #ff8a8a; }
+    .note { opacity: 0.7; font-size: 0.85rem; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>RRann — seed commit / reveal (browser demo)</h1>
+  <p class="note">
+    SHA-256 commit of seed material for anti re-roll transparency.
+    Matches Python <code>commit_seed</code> string layout.
+    Residual harvest in-browser: see <a href="extract_float_demo.html" style="color:#8ab4ff">extractFloat demo</a>
+    (WASM soft-harvest).
+  </p>
+
+  <label>Seed (float)</label>
+  <input id="seed" value="2.4" />
+  <label>game_id</label>
+  <input id="game_id" value="demo" />
+  <label>season</label>
+  <input id="season" value="s1" />
+
+  <div>
+    <button id="btnCommit">1. Publish commit</button>
+    <button id="btnReveal" class="secondary">2. Reveal &amp; verify</button>
+  </div>
+
+  <h2>Commit (publish this first)</h2>
+  <pre id="commitOut">—</pre>
+  <h2>Verify after reveal</h2>
+  <pre id="verifyOut">—</pre>
+
+  <script>
+    // Mirror rrann.fairness.commit_seed payload:
+    // b"rrann-commit-v1\0" + repr(seed) + \0 + game_id + \0 + season + \0 + extra
+    function pythonFloatRepr(x) {
+      // Close enough for common seeds; Python uses shortest round-trip repr.
+      // For 2.4 Python is '2.4'.
+      if (Number.isInteger(x)) return x.toFixed(1).replace(/\.0$/, '') === String(x)
+        ? (Number.isInteger(x) ? x + '.0' : String(x))
+        : String(x);
+      // Prefer simple string; document limitation for exotic floats.
+      let s = String(x);
+      if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;
+      if (s.indexOf('.') < 0) s += '.0';
+      return s;
+    }
+
+    async function sha256Hex(bytes) {
+      const buf = await crypto.subtle.digest('SHA-256', bytes);
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function commitSeed(seed, gameId, season) {
+      const enc = new TextEncoder();
+      const parts = [
+        enc.encode('rrann-commit-v1\0'),
+        enc.encode(pythonFloatRepr(seed) + '\0'),
+        enc.encode(gameId + '\0'),
+        enc.encode(season + '\0'),
+      ];
+      const total = parts.reduce((n, p) => n + p.length, 0);
+      const out = new Uint8Array(total);
+      let o = 0;
+      for (const p of parts) { out.set(p, o); o += p.length; }
+      return sha256Hex(out);
+    }
+
+    let published = null;
+
+    document.getElementById('btnCommit').onclick = async () => {
+      const seed = parseFloat(document.getElementById('seed').value);
+      const gameId = document.getElementById('game_id').value;
+      const season = document.getElementById('season').value;
+      published = await commitSeed(seed, gameId, season);
+      document.getElementById('commitOut').textContent = published;
+      document.getElementById('verifyOut').textContent = 'Waiting for reveal…';
+    };
+
+    document.getElementById('btnReveal').onclick = async () => {
+      if (!published) {
+        document.getElementById('verifyOut').innerHTML = '<span class="bad">Commit first</span>';
+        return;
+      }
+      const seed = parseFloat(document.getElementById('seed').value);
+      const gameId = document.getElementById('game_id').value;
+      const season = document.getElementById('season').value;
+      const again = await commitSeed(seed, gameId, season);
+      const ok = again === published;
+      document.getElementById('verifyOut').innerHTML =
+        (ok ? '<span class="ok">MATCH</span>' : '<span class="bad">MISMATCH</span>') +
+        '\nrevealed=' + again +
+        '\npublished=' + published +
+        '\n\nNote: exotic float repr may differ from Python; use server-side verify for economy.';
+    };
+  </script>
+</body>
+</html>

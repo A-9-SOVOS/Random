@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rrann"
+version = "0.2.0"
+description = "Dual-precision residual-harvest PRNG (float/Decimal diverge digits)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "RRann contributors" }]
+keywords = [
+  "rng",
+  "prng",
+  "floating-point",
+  "decimal",
+  "residual",
+  "entropy-source",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Security :: Cryptography",
+]
+dependencies = []
+
+[project.optional-dependencies]
+demo = ["rich>=13.0.0"]
+dev = ["pytest>=7.0", "rich>=13.0.0"]
+analysis = ["numpy>=1.20", "scipy>=1.7"]
+
+[project.urls]
+Homepage = "https://github.com/example/rrann"
+Documentation = "https://github.com/example/rrann#readme"
+Issues = "https://github.com/example/rrann/issues"
+
+[tool.setuptools.packages.find]
+include = ["rrann*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

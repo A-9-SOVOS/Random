@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Large / local experimental artifacts
+*.bin
+research/results/**
+!research/results/.gitkeep
+research/third_party/
+research/vendor/
+# Legacy paths (pre-reorg; keep ignored if present)
+sts_results/
+sts-2_1_2/
+third_party/
+rrann_sts*.bin
+sts_input.txt
+sts_results_export.log
+
+# NIST / TestU01 user installs
+~/.local/testu01/
+
+# Native builds
+research/sts/testu01_rrann
+testu01_rrann
+*.o
+*.a
+rust/**/target/
+go/**/vendor/
+packages/rrann-js/pkg/
+cpp/rrann_c_smoke
+
+# Local package caches / debs
+*.deb
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Accidental shell redirection junk
+;;*
+; fi*

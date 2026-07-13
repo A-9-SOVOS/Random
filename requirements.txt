@@ -1,0 +1,6 @@
+# Core library needs nothing beyond the stdlib.
+# Optional extras:
+rich>=13.0.0          # examples/demo_terminal.py
+pytest>=7.0           # tests
+numpy>=1.20           # research/analysis (optional)
+scipy>=1.7            # research/analysis (optional)

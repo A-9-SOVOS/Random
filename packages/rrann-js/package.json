@@ -1,0 +1,18 @@
+{
+  "name": "@rrann/core",
+  "version": "0.2.0",
+  "description": "RRann browser helpers (WASM): stream_seed, commit, demo unit floats for three.js",
+  "type": "module",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "pkg",
+    "README.md"
+  ],
+  "scripts": {
+    "build:wasm": "wasm-pack build ../../rust/rrann-core --target web --out-dir ../../packages/rrann-js/pkg --features wasm --no-default-features",
+    "demo:scatter": "python3 -m http.server 8766 --directory ../.."
+  },
+  "keywords": ["rng", "rrann", "three.js", "wasm"],
+  "license": "MIT"
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RRann extractFloat demo (WASM soft-harvest)</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #e8e8ef; background: #12141a; }
+    body { max-width: 44rem; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    label { display: block; margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.85; }
+    input { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #333; background: #1c1f28; color: inherit; box-sizing: border-box; }
+    button { margin-top: 1rem; margin-right: 0.5rem; padding: 0.5rem 0.9rem; border-radius: 6px; border: 0; background: #5b8cff; color: #fff; cursor: pointer; }
+    button.secondary { background: #3a3f4b; }
+    pre { background: #1c1f28; padding: 0.75rem; border-radius: 8px; overflow: auto; font-size: 0.8rem; white-space: pre-wrap; }
+    .note { opacity: 0.75; font-size: 0.85rem; margin-top: 1rem; line-height: 1.45; }
+    .ok { color: #6dffa8; }
+    .warn { color: #ffd36d; }
+    .bad { color: #ff8a8a; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.85rem; }
+    td, th { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid #2a2e3a; }
+    th { opacity: 0.7; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <h1>RRann — residual extractFloat (browser WASM)</h1>
+  <p class="note">
+    Runs the <strong>soft-harvest</strong> path compiled to WASM (<code>rust_decimal</code> ln/exp).
+    Good for demos and client-side rolls. For CPython-identical residuals (economy / anti-cheat
+    receipts), use Python or native MPFR (Rust/C/cgo).
+  </p>
+
+  <label>Seed (float &gt; 0)</label>
+  <input id="seed" value="2.4" />
+  <label>cull_head (default 2)</label>
+  <input id="cull" type="number" value="2" min="0" max="12" />
+
+  <div>
+    <button id="btnHarvest">Harvest</button>
+    <button id="btnVector" class="secondary">Load vector 2.4</button>
+  </div>
+
+  <h2>Status</h2>
+  <pre id="status">Loading WASM…</pre>
+  <h2>Result</h2>
+  <pre id="out">—</pre>
+  <h2>Reference (Python vectors for seed 2.4)</h2>
+  <table>
+    <tr><th>Field</th><th>Python / native MPFR</th></tr>
+    <tr><td>digits</td><td><code>525744833867</code></td></tr>
+    <tr><td>divergence_index</td><td><code>16</code></td></tr>
+    <tr><td>extract_float cull=2</td><td><code>0.5744833867</code></td></tr>
+  </table>
+
+  <p class="note">
+    Demos: <a href="seed_commit_demo.html" style="color:#8ab4ff">seed commit</a> ·
+    <a href="three_scatter_demo.html" style="color:#8ab4ff">three.js scatter</a><br />
+    Build WASM: <code>cd packages/rrann-js &amp;&amp; npm run build:wasm</code>
+  </p>
+
+  <script type="module">
+    const statusEl = document.getElementById('status');
+    const outEl = document.getElementById('out');
+
+    let api = null;
+
+    async function loadWasm() {
+      // Prefer packages/rrann-js façade; fall back to raw pkg
+      const candidates = [
+        '../packages/rrann-js/src/index.js',
+        '../packages/rrann-js/pkg/rrann_core.js',
+      ];
+      for (const url of candidates) {
+        try {
+          if (url.endsWith('index.js')) {
+            const mod = await import(url);
+            await mod.init();
+            if (typeof mod.extractFloat === 'function') {
+              api = mod;
+              statusEl.innerHTML = '<span class="ok">WASM loaded</span> via packages/rrann-js';
+              return;
+            }
+          } else {
+            const mod = await import(url);
+            await mod.default();
+            api = {
+              extractFloat: (s, c) => mod.wasm_extract_float(s, c),
+              harvestDigits: (s, n) => mod.wasm_harvest_digits(s, n),
+              divergenceIndex: (s) => mod.wasm_divergence_index(s),
+              extractBitsU32: (s, n, c) => mod.wasm_extract_bits_u32(s, n, c),
+            };
+            statusEl.innerHTML = '<span class="ok">WASM loaded</span> via pkg/rrann_core.js';
+            return;
+          }
+        } catch (e) {
+          console.warn('load failed', url, e);
+        }
+      }
+      statusEl.innerHTML =
+        '<span class="bad">WASM not found</span>. From repo root run:<br/>' +
+        '<code>cd packages/rrann-js && npm run build:wasm</code><br/>' +
+        'then serve with <code>python3 -m http.server 8766</code>';
+    }
+
+    function harvest() {
+      if (!api) {
+        outEl.textContent = 'WASM not ready';
+        return;
+      }
+      const seed = parseFloat(document.getElementById('seed').value);
+      const cull = parseInt(document.getElementById('cull').value, 10);
+      try {
+        const digits = api.harvestDigits(seed, 12);
+        const div = api.divergenceIndex(seed);
+        const f = api.extractFloat(seed, cull);
+        const bits = api.extractBitsU32 ? api.extractBitsU32(seed, 32, cull) : null;
+        const ref = 0.5744833867;
+        const near24 = Math.abs(seed - 2.4) < 1e-12 && cull === 2;
+        const matchNote = near24
+          ? (Math.abs(f - ref) < 1e-9
+              ? '≈ Python vector (soft matched closely)'
+              : `soft Δfloat=${Math.abs(f - ref).toExponential(3)} vs Python (expected for soft path)`)
+          : 'compare against Python harvest for this seed';
+        outEl.textContent = [
+          `seed=${seed}`,
+          `cull_head=${cull}`,
+          `digits=${digits}`,
+          `divergence_index=${div}`,
+          `extract_float=${f}`,
+          bits != null ? `extract_bits_u32=0x${(bits >>> 0).toString(16)} (${bits})` : '',
+          '',
+          matchNote,
+          '',
+          'Note: WASM uses soft-harvest (not MPFR). Economy servers should harvest server-side.',
+        ].filter(Boolean).join('\n');
+      } catch (e) {
+        outEl.textContent = String(e);
+      }
+    }
+
+    document.getElementById('btnHarvest').onclick = harvest;
+    document.getElementById('btnVector').onclick = () => {
+      document.getElementById('seed').value = '2.4';
+      document.getElementById('cull').value = '2';
+      harvest();
+    };
+
+    await loadWasm();
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RRann + three.js scatter</title>
+  <style>
+    body { margin: 0; background: #0b0d12; color: #e8e8ef; font-family: system-ui, sans-serif; }
+    #ui { position: absolute; left: 12px; top: 12px; z-index: 2; background: rgba(0,0,0,.55); padding: 12px 14px; border-radius: 10px; max-width: 22rem; }
+    input { width: 5rem; }
+    canvas { display: block; }
+    .note { opacity: .75; font-size: 12px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <strong>RRann three.js scatter</strong>
+    <div>master seed <input id="seed" type="number" step="any" value="2.4" /></div>
+    <div>count <input id="count" type="number" value="800" /></div>
+    <button id="regen">Regenerate</button>
+    <div class="note">
+      Positions from <code>demoUnit(master, stream, n)</code> — deterministic forks per axis.
+      Full residual harvest plugs in later (OPEN_SEQUENCE 1 / step 3rd).
+    </div>
+    <pre id="info"></pre>
+  </div>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { demoUnit, streamSeed, init, commitSeedAsync } from '../packages/rrann-js/src/index.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0d12);
+    const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 4);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    let points;
+
+    function rebuild() {
+      if (points) {
+        scene.remove(points);
+        points.geometry.dispose();
+        points.material.dispose();
+      }
+      const master = parseFloat(document.getElementById('seed').value);
+      const n = parseInt(document.getElementById('count').value, 10) || 800;
+      const positions = new Float32Array(n * 3);
+      const colors = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) {
+        // independent axes via stream ids 0,1,2
+        const x = demoUnit(master, 0, i) * 2 - 1;
+        const y = demoUnit(master, 1, i) * 2 - 1;
+        const z = demoUnit(master, 2, i) * 2 - 1;
+        positions[i * 3] = x * 1.6;
+        positions[i * 3 + 1] = y * 1.6;
+        positions[i * 3 + 2] = z * 1.6;
+        colors[i * 3] = 0.3 + 0.7 * demoUnit(master, 3, i);
+        colors[i * 3 + 1] = 0.4 + 0.6 * demoUnit(master, 4, i);
+        colors[i * 3 + 2] = 0.8;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const mat = new THREE.PointsMaterial({ size: 0.035, vertexColors: true });
+      points = new THREE.Points(geo, mat);
+      scene.add(points);
+      document.getElementById('info').textContent =
+        `stream0=${streamSeed(master, 0).toFixed(6)}\n` +
+        `same seed → same cloud`;
+    }
+
+    document.getElementById('regen').onclick = rebuild;
+    await init();
+    rebuild();
+    const commit = await commitSeedAsync(2.4, 'three-demo', 's1');
+    document.getElementById('info').textContent += `\ncommit[0..16]=${commit.slice(0, 16)}…`;
+
+    function tick() {
+      requestAnimationFrame(tick);
+      if (points) points.rotation.y += 0.003;
+      renderer.render(scene, camera);
+    }
+    tick();
+    addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  </script>
+</body>
+</html>
