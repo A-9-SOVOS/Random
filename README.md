@@ -1,5 +1,7 @@
 # RRann
 
+[**Live Demo**](https://a-9-sovos.github.io/Random/web/demo.html)
+
 **Residual-harvest RNG** for games, sims, and auditable rolls.
 
 Same seed → same results. Built from where IEEE float64 and high-precision
