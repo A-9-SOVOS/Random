@@ -40,7 +40,7 @@ head unless you dig into raw `harvest()` digits yourself.
 | Full residual (no cull) → bits | **Hard fail** (~911/1000 on 1e6×1000) | Lab / historical; **not** the default API |
 | Residual head only (digits 0–1) | **Fail** | Why we cull |
 | **Default: cull 2, remainder → bits** | **Pass** (200/200 on 1e6×200) | What `Rng` / `extract_*` / `roll` use |
-| Soft STS margins on remainder | FFT / Serial / ApEn soft `*` on that run | Not “Runs still broken” |
+| Soft STS margins on remainder | FFT / Serial / ApEn soft `*` on that run | Fixing detectable runs by culling them. |
 
 So: **Runs is fixed for the product path.** That is not a full STS green light,
 not a crypto proof, and not a casino certification.
