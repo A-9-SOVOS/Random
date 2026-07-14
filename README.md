@@ -48,21 +48,15 @@ not a crypto proof, and not a casino certification.
 Lab detail: [docs/FINDINGS.md](docs/FINDINGS.md),
 [docs/RESEARCH_HEAD_BIAS.md](docs/RESEARCH_HEAD_BIAS.md).
 
-### Non-claims
+### Use Sheet
 
-| Claim | Reality |
+| Usage | Guidance |
 |--------|---------|
-| Deterministic game/sim PRNG with audit-friendly seed story | **Yes** |
-| Seed commit for anti re-roll transparency | **Yes** (SHA-256) |
-| Default path fixes residual **Runs** defect | **Yes** (see table) |
-| Passes entire NIST STS / TestU01 | **No** — soft fails remain |
-| **CSPRNG** / FIPS / SP 800-90 | **No** |
-| Regulated real-money casino RNG | **No** |
-| Physical / “universe” entropy | **No** — pure math residual |
-
-For secrecy under an adversary: OS seed and/or a standard DRBG.  
-For **value-bearing** economies: roll on the **server**, keep receipts; never
-trust the client alone.
+| Deterministic game/sim PRNG with audit-friendly seed story? | **Yes** What it's for, that's the ideal use case |
+| Seed commit for anti re-roll transparency? | **Yes** (SHA-256) Good times had by all |
+| NIST STS RNG? | **No** We wanna make it clear that despite extensive testing this is not to that standard |
+| Regulated real-money casino RNG Ready? | **No** Don't do that, we can't be sure it's uncrackabe and won't be held liable |
+| Simulation grade entropy? | **No** Not even that, don't do that. |
 
 ---
 
