@@ -14,5 +14,5 @@
     "demo:scatter": "python3 -m http.server 8766 --directory ../.."
   },
   "keywords": ["rng", "rrann", "three.js", "wasm"],
-  "license": "MIT"
+  "license": "SEE LICENSE IN LICENSE"
 }

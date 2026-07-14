@@ -3,7 +3,7 @@ name = "rrann-core"
 version = "0.2.0"
 edition = "2021"
 description = "RRann helpers + harvest (MPFR native / soft WASM)"
-license = "MIT"
+license = "SEE LICENSE IN LICENSE"
 repository = "https://github.com/example/rrann"
 
 [lib]

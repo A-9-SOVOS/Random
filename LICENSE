@@ -1,21 +1,109 @@
-MIT License
+# Arc-9 Open Royalty Agreement
+## Version 1.4
 
-Copyright (c) 2024-2026 RRann contributors
+## 1. Definitions
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+**Licensed Material** means all code, algorithms, documentation, designs, methods, and materials distributed with this project, in source or binary form.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+**Licensee** means any person or entity using the Licensed Material.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+**Licensor** means the copyright owner granting rights under this license. For this repository, the Licensor is The Arc-9 Foundation unless otherwise specified.
+
+**Gross Revenue** means all revenue received by the Licensee (or any sublicensee) from any product or service in which the Licensed Material is incorporated, used, or relied upon in any measurable way. Gross Revenue is interpreted consistent with how the Licensee reports revenue to their primary tax authority. If the Licensed Material contributes at all to the functionality, performance, capability, or revenue of a commercial offering, that entire offering's revenue is subject to royalty calculation. There is no de minimis threshold.
+
+## 2. Grant of License
+
+Subject to the terms below, the Licensor grants a worldwide, non-exclusive, royalty-bearing license to use, reproduce, modify, distribute, and sublicense the Licensed Material.
+
+## 3. Royalty Obligation
+
+**3.1 Rate and Triggering Event**
+
+A royalty of four percent (4%) of Gross Revenue is due whenever any commercial entity receives revenue from a product or service incorporating the Licensed Material. Individual developers and hobbyists using the Licensed Material for personal, academic, or non-commercial purposes owe no royalties. The moment you monetize, royalties are owed on all revenue from that product.
+
+**3.2 Gross Revenue Calculation and Disputes**
+
+Gross Revenue shall be calculated and reported consistent with how the Licensee reports revenue to their primary tax authority. In case of dispute about what constitutes Gross Revenue, the parties will negotiate in good faith. If the parties cannot reach agreement, the calculation defaults to the methodology specified in Section 3.2(a) below.
+
+**3.2(a) Default Revenue Accounting Methodology**
+
+Where Gross Revenue cannot be determined by reference to the Licensee's tax authority reporting, the Licensor's standard revenue accounting methodology shall apply. This methodology is documented in the project repository and may be updated from time to time with thirty (30) days' notice to Licensees.
+
+**3.3 Reporting and Payment**
+
+Licensees shall maintain accurate records of Gross Revenue and remit royalty payments quarterly, within thirty (30) days of each quarter's end. Each payment must include a statement showing Gross Revenue and royalty calculation for that period.
+
+**3.4 Late Payment Interest**
+
+Any royalty payment not received within thirty (30) days of the quarterly due date accrues interest as follows:
+
+- **Year 1 (Months 1-12 of delinquency):** Interest accrues at the inflation rate and then 1% per annum, compounded quarterly, where inflation rate is determined by the Licensee's primary currency's official inflation rate (or if no official rate exists, as reported by the Licensor's standard economic reference).
+
+- **Year 2 (Months 13-24 of delinquency):** Interest accrues at the inflation rate and then 2% per annum, compounded quarterly.
+
+- **Year 3 (Months 25-36 of delinquency):** Interest accrues at the inflation rate and then 4% per annum, compounded quarterly.
+
+- **Year 4 and beyond (Month 37+):** Interest accrues at 8% per annum, compounded quarterly.
+
+All interest is calculated and compounded on the total outstanding balance (principal plus previously accrued interest) in accordance with these escalating rates. The Licensor's interpretation of inflation rate and calculation methodology shall be documented in the project repository.
+
+This structure provides reasonable accommodation for small operators and temporary hardship while creating meaningful disincentive for deliberate non-payment by established commercial entities.
+
+## 4. Attribution
+
+The Licensee shall preserve all copyright and attribution notices included in the Licensed Material. For any commercial product using the Licensed Material, include the following notice in prominent source code files:
+
+```
+/*
+ * Arc-9 Open Royalty Agreement
+ * Copyright (c) Arc-9 Foundation
+ *
+ * This code incorporates Licensed Material covered by the Arc-9 Open Royalty Agreement.
+ * Commercial use is subject to a 4% royalty on Gross Revenue.
+ * See LICENSE for full details.
+ */
+```
+
+Do not remove, obscure, or alter these notices.
+
+## 5. Modifications
+
+Modified versions of the Licensed Material remain subject to royalty obligations when used commercially.
+
+## 6. Whistleblower Incentive
+
+**6.1 Bounty Structure**
+
+The Licensor offers a bounty to any individual reporting undisclosed commercial use or unpaid royalties. The whistleblower receives fifty percent (50%) of all amounts recovered by the Licensor, including unpaid royalties and accrued interest.
+
+**6.2 Reporting**
+
+Reports should be sent to the contact address in Section 7. The Licensor will maintain reasonable confidentiality regarding the whistleblower's identity to the extent permitted by law.
+
+**6.3 Scope**
+
+This incentive applies to all historical underpayments and applies regardless of the Licensee's current payment status.
+
+## 7. Contact and Notices
+
+All royalty payments and statements shall be sent to the Licensor at the contact details provided in the project repository or otherwise communicated by the Licensor.
+
+## 8. Disclaimers and Liability
+
+The Licensed Material is provided "AS IS" without any express warranties. To the fullest extent permitted by law, the Licensor disclaims implied warranties of merchantability, fitness for a particular purpose, title, and non-infringement. The Licensor is not liable for indirect, incidental, special, consequential, or punitive damages arising from the use or inability to use the Licensed Material.
+
+## 9. Intellectual Property
+
+The Licensor retains all copyrights, moral rights, and intellectual property rights in the Licensed Material not expressly granted by this license.
+
+## 10. Governing Law
+
+This Agreement shall be governed by the laws of the United States Government.
+
+## 11. Core Principle
+
+This agreement relies on economic incentives and voluntary compliance. Licensees are expected to pay their royalties honestly. Those who do not will eventually face discovery through the whistleblower system, where accumulated unpaid amounts—with compounding interest—create sufficient financial incentive for anyone with knowledge to report. Concealment becomes increasingly expensive over time. The tiered interest structure reflects this principle: temporary hardship receives reasonable accommodation, while deliberate non-payment is actively discouraged.
+
+## 12. Acceptance
+
+Use of the Licensed Material constitutes acceptance of these terms. By downloading, installing, or using the Licensed Material, you acknowledge that you have read this Agreement in its entirety and agree to be bound by its terms. Do not use the Licensed Material if you do not accept this Agreement.

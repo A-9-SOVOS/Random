@@ -1,3 +1,5 @@
+// Licensed under the Arc-9 Open Royalty Agreement v1.4. See LICENSE in the repository root.
+
 /**
  * Thin JS façade over WASM (preferred) with pure-JS fallback for commit/stream.
  * Full residual harvest still Python until OPEN_SEQUENCE step 1 (3rd).

@@ -1,3 +1,5 @@
+//! Licensed under the Arc-9 Open Royalty Agreement v1.4. See LICENSE in the repository root.
+//!
 //! RRann core (Rust) — portable helpers, residual harvest, C ABI, optional WASM.
 //!
 //! Native build: MPFR harvest (exact vs Python vectors). WASM: soft-harvest demo.

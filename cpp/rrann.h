@@ -1,4 +1,6 @@
-/* RRann C API for engines (Unity/Godot/native).
+/* Licensed under the Arc-9 Open Royalty Agreement v1.4. See LICENSE in the repository root.
+ *
+ * RRann C API for engines (Unity/Godot/native).
  *
  * Link against librann_core (Rust static/shared) OR implement the same
  * symbols yourself. See docs/OPEN_SEQUENCE.md step 3.

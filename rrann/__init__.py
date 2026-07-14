@@ -1,4 +1,5 @@
-"""
+"""Licensed under the Arc-9 Open Royalty Agreement v1.4. See LICENSE in the repository root.
+
 RRann — dual-precision residual harvest RNG.
 
 Pipeline (default)::

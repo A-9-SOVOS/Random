@@ -267,4 +267,4 @@ CI: `.github/workflows/ci.yml`.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Licensed under the Arc-9 Open Royalty Agreement v1.4 — see [LICENSE](LICENSE).
